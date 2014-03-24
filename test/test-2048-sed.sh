@@ -4,6 +4,66 @@
 # Tests
 #
 
+function test_merge_right() {
+    diff_board <({
+            echo ":bbbb:bbbb:bbbb:bbbb"
+            echo "R 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|>__2|____|___8|___8|"
+            echo "|____|____|___8|___8|"
+            echo "|____|____|___8|___8|"
+            echo "|____|____|___8|___8|"
+            echo
+        )
+}
+
+function test_merge_left() {
+    diff_board <({
+            echo ":bbbb:bbbb:bbbb:bbbb"
+            echo "L 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___8|___8|>__2|____|"
+            echo "|___8|___8|____|____|"
+            echo "|___8|___8|____|____|"
+            echo "|___8|___8|____|____|"
+            echo
+        )
+}
+
+function test_merge_up() {
+    diff_board <({
+            echo ":bbbb:bbbb:bbbb:bbbb"
+            echo "U 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___8|___8|___8|___8|"
+            echo "|___8|___8|___8|___8|"
+            echo "|>__2|____|____|____|"
+            echo "|____|____|____|____|"
+            echo
+        )
+}
+
+function test_merge_down() {
+    diff_board <({
+            echo ":bbbb:bbbb:bbbb:bbbb"
+            echo "D 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|>__2|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|___8|___8|___8|___8|"
+            echo "|___8|___8|___8|___8|"
+            echo
+        )
+}
+
 function test_populate_cell_1() {
     diff_board <({
             echo ":----:----:----:---a"
@@ -482,6 +542,7 @@ function run() {
 
         echo "[FAIL] ${test_fn}:"
         sed 's/^/    /' <<< "${output}"
+        echo
     fi
 }
 
@@ -504,6 +565,10 @@ function test_summary() {
 test_count=0
 fail_count=0
 
+run test_merge_right
+run test_merge_left
+run test_merge_up
+run test_merge_down
 run test_populate_cell_1
 run test_populate_cell_2
 run test_populate_cell_3
