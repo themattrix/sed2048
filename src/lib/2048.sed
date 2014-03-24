@@ -16,7 +16,6 @@
     s/\n//
 
 
-:start-move
 :check-if-game-is-over
 
     # The game is over when no more moves are possible. The simplest
