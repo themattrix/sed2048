@@ -263,7 +263,7 @@
 
     # If the game is over, exit with a message.
     / z/{
-        s/.*/\nNo more moves! Game over./
+        s/.*/No more moves! Game over./
         p
         q
     }
@@ -273,6 +273,10 @@
 
     # Copy board layout to hold buffer for next time.
     h
+
+    # If the "2048" (k) or higher cell appears, you've won! Append a
+    # "win" (w) flag to the beginning of the pattern buffer.
+    /[kl]/s/^/w /
 
     # Replace tokens with real numbers. The newly-populated cell is
     # marked with a ">".
@@ -301,6 +305,8 @@
     s/$/\n/
     s/\n/|&/2g
     s/\n/ ___________________&/
+
+    s/w (.*)/\1\nYou win!\n/
 
     # Output board.
     p
