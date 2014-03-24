@@ -199,16 +199,18 @@
     # An empty tile should be populated if the state of the board before
     # the move is different than the state of the board after the move.
     #
-    # This is easy to check, since *before* state is still in the hold
-    # buffer. To compare, we'll simply append the hold buffer to the
-    # pattern buffer and see if the pattern buffer appears twice.
+    # This is easy to check, since the *before* state is still in the
+    # hold buffer. To compare, we'll simply append the hold buffer to
+    # the pattern buffer and see if the pattern buffer appears twice.
     
     # Append *before* state to *after* state (separated by a newline).
     G
 
     /((:....){4})\n\1/!{
-        # Since the before/after board state differs, populate the first
-        # (for now) empty tile with a '2' tile.
+        # The before/after board states differ. Because they differ, 
+        # populate the Nth empty cell with a "2". N is a number between
+        # 1 and 16 (inclusive). It was pseudo-randomly chosen by the
+        # input script and appears right after the key press direction.
 
         # Remove the *before* state and put a space at the end.
         s/\n.*/ /
@@ -218,6 +220,9 @@
         # "a" (2), we use an "A" so that that it can be specially marked
         # when output.
         s/(:....){4} /&&&&&&&&&&&&&&&&/
+
+        # These replacements could be in any order, since only one will
+        # happen.
         / 16:/s/-/A/16
         / 15:/s/-/A/15
         / 14:/s/-/A/14
@@ -241,7 +246,7 @@
         s/((:....){4} )((:....){4} )\3{14}/\1/
 
         # Otherwise, the first copy can be used as a model from which
-        # 14 other copies will match.
+        # 14 other copies will match. Pull out the modified copy.
         s/^(. [0-9]+)((:....){4} )\2*((:....){4} )\2*$/\1\4/
 
         # Remove the trailing space and output the board.
@@ -263,7 +268,7 @@
         q
     }
 
-    # Remove key press direction and random input.
+    # Remove key press direction and random cell number.
     s/^[^:]*//
 
     # Copy board layout to hold buffer for next time.

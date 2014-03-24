@@ -413,6 +413,40 @@ function test_game_to_4096() {
         )
 }
 
+function test_game_over() {
+    diff_board <({
+            echo ":abcd:efgh:abcd:efgh"
+            echo "L 1"
+        } | sed_2048
+        ) <(
+            echo " ___________________"
+            echo "|___2|___4|___8|__16|"
+            echo "|__32|__64|_128|_256|"
+            echo "|___2|___4|___8|__16|"
+            echo "|__32|__64|_128|_256|"
+            echo
+            echo
+            echo "No more moves! Game over."
+        )
+}
+
+function test_game_over_checkerboard() {
+    diff_board <({
+            echo ":abab:baba:abab:baba"
+            echo "L 1"
+        } | sed_2048
+        ) <(
+            echo " ___________________"
+            echo "|___2|___4|___2|___4|"
+            echo "|___4|___2|___4|___2|"
+            echo "|___2|___4|___2|___4|"
+            echo "|___4|___2|___4|___2|"
+            echo
+            echo
+            echo "No more moves! Game over."
+        )
+}
+
 
 #
 # Test helpers
@@ -491,6 +525,7 @@ run test_populate_cell_16_mod_1
 run test_populate_cell_10_mod_4
 run test_populate_cell_13_mod_3
 run test_game_to_4096
-
+run test_game_over
+run test_game_over_checkerboard
 
 test_summary
