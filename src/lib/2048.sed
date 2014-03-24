@@ -122,24 +122,21 @@
         s/bb/c/g
         s/aa/b/g
 
-    #
-    # If this is a dry-run AND a substitution was made, the game is not
-    # over.
-    #
+    # If this is a dry run...
     /^.d /{
-        # If a merge was made, end the dry-run.
+        # ...and a merge was made, end the dry-run.
         t end-dry-run
 
-        # Restore the board state from the hold buffer.
+        # Otherwise, restore the board state from the hold buffer...
         G
         s/:.*\n//
 
-        # Still a possibility that the game is over.
+        # ...and check again to see if the game is over.
         b check-if-game-is-over
 
         :end-dry-run
 
-            # Remove the dry-run flag
+            # Dry run done! Remove the dry-run flag.
             s/^.d //
             
             # Restore the board state from the hold buffer.
@@ -219,8 +216,43 @@
     /((:....){4})\n\1/!{
         # Since the before/after board state differs, populate the first
         # (for now) empty tile with a '2' tile.
-        # TODO: populate a random empty cell instead of the first cell.
-        s/-/a/
+
+        # Remove the *before* state and put a space at the end.
+        s/\n.*/ /
+
+        # Replacement for a modulus operator. Fill the Nth open cell,
+        # mod number-of-open-cells.
+        s/(:....){4} /&&&&&&&&&&&&&&&&/
+        / 16:/s/-/a/16
+        / 15:/s/-/a/15
+        / 14:/s/-/a/14
+        / 13:/s/-/a/13
+        / 12:/s/-/a/12
+        / 11:/s/-/a/11
+        / 10:/s/-/a/10
+        / 9:/s/-/a/9
+        / 8:/s/-/a/8
+        / 7:/s/-/a/7
+        / 6:/s/-/a/6
+        / 5:/s/-/a/5
+        / 4:/s/-/a/4
+        / 3:/s/-/a/3
+        / 2:/s/-/a/2
+        / 1:/s/-/a/1
+
+        # Find the copy with the replaced open cell and use that one. The
+        # most likely option is that the original copy contains the
+        # replacement. In this case, copies 2-16 are identical.
+        s/((:....){4} )((:....){4} )\3{14}/\1/
+
+        # Otherwise, the first copy can be used as a model from which
+        # 14 other copies will match.
+        s/^(. [0-9]+)((:....){4} )\2*((:....){4} )\2*$/\1\4/
+
+        # Remove the trailing space and output the board.
+        s/ $//
+
+        b output
     }
 
     # Remove the *before* state.
