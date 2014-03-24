@@ -79,6 +79,36 @@ function test_populate_cell_5() {
         )
 }
 
+function test_populate_cell_6() {
+    diff_board <({
+            echo ":----:----:----:---a"
+            echo "L 6"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|____|"
+            echo "|____|>__2|____|____|"
+            echo "|____|____|____|____|"
+            echo "|___2|____|____|____|"
+            echo
+        )
+}
+
+function test_populate_cell_7() {
+    diff_board <({
+            echo ":----:----:----:---a"
+            echo "L 7"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|____|"
+            echo "|____|____|>__2|____|"
+            echo "|____|____|____|____|"
+            echo "|___2|____|____|____|"
+            echo
+        )
+}
+
 function test_populate_cell_8() {
     diff_board <({
             echo ":----:----:----:---a"
@@ -104,6 +134,36 @@ function test_populate_cell_9() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|>__2|____|____|____|"
+            echo "|___2|____|____|____|"
+            echo
+        )
+}
+
+function test_populate_cell_10() {
+    diff_board <({
+            echo ":----:----:----:---a"
+            echo "L 10"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|>__2|____|____|"
+            echo "|___2|____|____|____|"
+            echo
+        )
+}
+
+function test_populate_cell_11() {
+    diff_board <({
+            echo ":----:----:----:---a"
+            echo "L 11"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|>__2|____|"
             echo "|___2|____|____|____|"
             echo
         )
@@ -139,7 +199,37 @@ function test_populate_cell_12_after() {
         )
 }
 
-function test_populate_cell_15() {
+function test_populate_cell_13_after() {
+    diff_board <({
+            echo ":---a:----:----:----"
+            echo "L 13"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___2|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|>__2|____|____|"
+            echo
+        )
+}
+
+function test_populate_cell_14_after() {
+    diff_board <({
+            echo ":---a:----:----:----"
+            echo "L 14"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___2|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|>__2|____|"
+            echo
+        )
+}
+
+function test_populate_cell_15_after() {
     diff_board <({
             echo ":---a:----:----:----"
             echo "L 15"
@@ -154,7 +244,7 @@ function test_populate_cell_15() {
         )
 }
 
-function test_populate_cell_16_wrap_1() {
+function test_populate_cell_16_mod_15() {
     diff_board <({
             echo ":----:----:----:---a"
             echo "L 16"
@@ -169,7 +259,7 @@ function test_populate_cell_16_wrap_1() {
         )
 }
 
-function test_populate_cell_16_wrap_4() {
+function test_populate_cell_16_mod_1() {
     diff_board <({
             echo ":-bcd:efgh:abcd:efgh"
             echo "L 16"
@@ -180,6 +270,145 @@ function test_populate_cell_16_wrap_4() {
             echo "|__32|__64|_128|_256|"
             echo "|___2|___4|___8|__16|"
             echo "|__32|__64|_128|_256|"
+            echo
+        )
+}
+
+function test_populate_cell_10_mod_4() {
+    diff_board <({
+            echo ":-bcd:-efg:-bcd:-efg"
+            echo "L 10"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___4|___8|__16|____|"
+            echo "|__32|__64|_128|>__2|"
+            echo "|___4|___8|__16|____|"
+            echo "|__32|__64|_128|____|"
+            echo
+        )
+}
+
+function test_populate_cell_13_mod_3() {
+    diff_board <({
+            echo ":-bcd:-efg:-bcd:efgh"
+            echo "L 13"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___4|___8|__16|>__2|"
+            echo "|__32|__64|_128|____|"
+            echo "|___4|___8|__16|____|"
+            echo "|__32|__64|_128|_256|"
+            echo
+        )
+}
+
+function test_game_to_4096() {
+    # -abc
+    # k--d
+    # j--e
+    # ihgf
+    diff_board <({
+            echo ":-abc:k--d:j--e:ihgf"
+            echo "R 1"
+            echo "R 1"
+            echo "R 1"
+            echo "R 1"
+            echo "D 1"
+            echo "D 1"
+            echo "D 1"
+            echo "L 1"
+            echo "L 1"
+            echo "L 1"
+            echo "R 1"
+            echo "U 1"
+            echo "U 1"
+        } | sed_2048
+        ) <(
+            echo " ___________________"
+            echo "|____|___2|___4|___8|"
+            echo "|2048|____|____|__16|"
+            echo "|1024|____|____|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|___2|___4|___8|"
+            echo "|____|____|2048|__16|"
+            echo "|____|____|1024|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|___4|___4|___8|"
+            echo "|____|____|2048|__16|"
+            echo "|____|____|1024|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|___2|___8|___8|"
+            echo "|____|____|2048|__16|"
+            echo "|____|____|1024|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|____|___4|__16|"
+            echo "|____|____|2048|__16|"
+            echo "|____|____|1024|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|____|___4|____|"
+            echo "|____|____|2048|__32|"
+            echo "|___2|____|1024|__32|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|____|___4|____|"
+            echo "|____|____|2048|____|"
+            echo "|___4|____|1024|__64|"
+            echo "|_512|_256|_128|__64|"
+            echo
+            echo " ___________________"
+            echo "|>__2|____|___4|____|"
+            echo "|___2|____|2048|____|"
+            echo "|___4|____|1024|____|"
+            echo "|_512|_256|_128|_128|"
+            echo
+            echo " ___________________"
+            echo "|___2|___4|>__2|____|"
+            echo "|___2|2048|____|____|"
+            echo "|___4|1024|____|____|"
+            echo "|_512|_256|_256|____|"
+            echo
+            echo " ___________________"
+            echo "|___2|___4|___2|>__2|"
+            echo "|___2|2048|____|____|"
+            echo "|___4|1024|____|____|"
+            echo "|_512|_512|____|____|"
+            echo
+            echo " ___________________"
+            echo "|___2|___4|___4|>__2|"
+            echo "|___2|2048|____|____|"
+            echo "|___4|1024|____|____|"
+            echo "|1024|____|____|____|"
+            echo
+            echo " ___________________"
+            echo "|>__2|___2|___8|___2|"
+            echo "|____|____|___2|2048|"
+            echo "|____|____|___4|1024|"
+            echo "|____|____|____|1024|"
+            echo
+            echo " ___________________"
+            echo "|___2|___2|___8|___2|"
+            echo "|>__2|____|___2|2048|"
+            echo "|____|____|___4|2048|"
+            echo "|____|____|____|____|"
+            echo
+            echo " ___________________"
+            echo "|___4|___2|___8|___2|"
+            echo "|>__2|____|___2|4096|"
+            echo "|____|____|___4|____|"
+            echo "|____|____|____|____|"
             echo
         )
 }
@@ -246,12 +475,22 @@ run test_populate_cell_2
 run test_populate_cell_3
 run test_populate_cell_4
 run test_populate_cell_5
+run test_populate_cell_6
+run test_populate_cell_7
 run test_populate_cell_8
 run test_populate_cell_9
+run test_populate_cell_10
+run test_populate_cell_11
 run test_populate_cell_12
 run test_populate_cell_12_after
-run test_populate_cell_15
-run test_populate_cell_16_wrap_1
-run test_populate_cell_16_wrap_4
+run test_populate_cell_13_after
+run test_populate_cell_14_after
+run test_populate_cell_15_after
+run test_populate_cell_16_mod_15
+run test_populate_cell_16_mod_1
+run test_populate_cell_10_mod_4
+run test_populate_cell_13_mod_3
+run test_game_to_4096
+
 
 test_summary
