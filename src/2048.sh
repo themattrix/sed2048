@@ -44,10 +44,10 @@ function sed_2048() {
 }
 
 echo
-echo " ____________________| 2048.sed |___________________ "
-echo "|                                                   |"
-echo "| Use the W/A/S/D keys to play, and CTRL+C to quit. |"
-echo "|___________________________________________________|"
+echo " ___________________| 2048.sed |___________________ "
+echo "|                                                  |"
+echo "| Use the W/A/S/D keys to play and CTRL+C to quit. |"
+echo "|__________________________________________________|"
 echo
 
 gather_input | sed_2048
