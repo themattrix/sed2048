@@ -7,4 +7,4 @@ Use the W/A/S/D keys to control. Run with:
 
     $ ./src/2048.sh
 
-> Note for OS X users: The version of sed installed has different options than the Linux one. Notably, it does not have the extended-regex option '-r'. I recommend building the latest version from here: http://sed.sourceforge.net/
+> Note for OS X users: The version of sed installed has different options than the Linux one. Notably, it does not have the extended-regex option `-r`. I recommend building the latest version from here: http://sed.sourceforge.net/
