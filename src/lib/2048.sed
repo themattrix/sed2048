@@ -2,14 +2,8 @@
 
 :initial-board
 
-    # The very first input line is the initial board. The second line
-    # contains the first key-press. Put them both on one line with the
-    # key first.
-    /:/{
-        N
-        s/(.*)\n(.*)/\2\1/
-        b start-move
-    }
+    # The very first input line is the initial board. Let's output it.
+    /:/b output
 
 
 :next
@@ -221,24 +215,26 @@
         s/\n.*/ /
 
         # Replacement for a modulus operator. Fill the Nth open cell,
-        # mod number-of-open-cells.
+        # mod number-of-open-cells. Instead of filling the cell with an
+        # "a" (2), we use an "A" so that that it can be specially marked
+        # when output.
         s/(:....){4} /&&&&&&&&&&&&&&&&/
-        / 16:/s/-/a/16
-        / 15:/s/-/a/15
-        / 14:/s/-/a/14
-        / 13:/s/-/a/13
-        / 12:/s/-/a/12
-        / 11:/s/-/a/11
-        / 10:/s/-/a/10
-        / 9:/s/-/a/9
-        / 8:/s/-/a/8
-        / 7:/s/-/a/7
-        / 6:/s/-/a/6
-        / 5:/s/-/a/5
-        / 4:/s/-/a/4
-        / 3:/s/-/a/3
-        / 2:/s/-/a/2
-        / 1:/s/-/a/1
+        / 16:/s/-/A/16
+        / 15:/s/-/A/15
+        / 14:/s/-/A/14
+        / 13:/s/-/A/13
+        / 12:/s/-/A/12
+        / 11:/s/-/A/11
+        / 10:/s/-/A/10
+        / 9:/s/-/A/9
+        / 8:/s/-/A/8
+        / 7:/s/-/A/7
+        / 6:/s/-/A/6
+        / 5:/s/-/A/5
+        / 4:/s/-/A/4
+        / 3:/s/-/A/3
+        / 2:/s/-/A/2
+        / 1:/s/-/A/1
 
         # Find the copy with the replaced open cell and use that one. The
         # most likely option is that the original copy contains the
@@ -274,9 +270,11 @@
     # Copy board layout to hold buffer for next time.
     h
 
-    # Replace tokens with real numbers.
+    # Replace tokens with real numbers. The newly-populated cell is
+    # marked with a ">".
     s/-/|____/g
     s/a/|___2/g
+    s/A/|>__2/g
     s/b/|___4/g
     s/c/|___8/g
     s/d/|__16/g
@@ -288,6 +286,11 @@
     s/j/|1024/g
     s/k/|2048/g
     s/l/|4096/g
+
+    # Replace the *new* "2" with a normal one in the hold buffer.
+    x
+    s/A/a/
+    x
 
     # Split board into multiple lines and draw borders.
     s/:/\n/g
