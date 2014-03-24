@@ -1,33 +1,28 @@
 #!/bin/sed -rnf
 
+:initial-board
+
+    # The very first input line is the initial board. The second line
+    # contains the first key-press. Put them both on one line with the
+    # key first.
+    /:/{
+        N
+        s/(.*)\n(.*)/\2\1/
+        b start-move
+    }
+
+
 :next
 
-    # If the hold buffer contains something, append the hold buffer to
+    # This is *not* the initial board, so the hold buffer is expected to
+    # contain the previous state of the board. Append the hold buffer to
     # the pattern buffer so that we can use the existing board with the
     # new key-press.
-    x
-    /./{
-        x
-        G
-        s/\n//
-        b check-if-game-is-over
-    }
-    x
+    G
+    s/\n//
 
 
-:seed-board
-
-    # TODO: should be initially seeded with random positions
-    # Seed initial positions:
-    #
-    # g a - c
-    # - a - d
-    # - a - e
-    # - a - f
-    #
-    s/$/:ga-c:-a-d:-a-e:-a-f/
-
-
+:start-move
 :check-if-game-is-over
 
     # The game is over when no more moves are possible. The simplest

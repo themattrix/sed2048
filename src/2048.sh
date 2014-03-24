@@ -3,13 +3,23 @@
 readonly THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 function get_random() {
-    echo "$(($RANDOM % 16))"
+    local range=$1
+    echo "$(($RANDOM % $range + 1))"
+}
+
+function initial_board() {
+    sed -r \
+        -e "s/-/a/$(get_random 16)" \
+        -e "s/-/a/$(get_random 15)" \
+        <<< ":----:----:----:----"
 }
 
 function gather_input() {
     # Read one key from the user and convert that to an arrow key. Also
     # output a random number (0-15) next to the chosen key. Ignore other
     # inputs.
+    echo "$(initial_board)"
+
     while true
     do
         read -s -n 1 key
@@ -22,7 +32,10 @@ function gather_input() {
             *) arrow=;;
         esac
         
-        [ -n "${arrow}" ] && echo "${arrow} $(get_random)"
+        if [ -n "${arrow}" ]
+        then
+            echo "${arrow} $(get_random 16)"
+        fi
     done
 }
 
