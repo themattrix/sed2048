@@ -51,7 +51,7 @@ function print_score() {
         }
         /^\|/{
             // Board row
-            score += $1 + $2 + $3 + $4
+            score += $2 + $3 + $4 + $5
         }
         /^$/{
             // End board
