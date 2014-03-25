@@ -65,7 +65,7 @@
 :rotate-forward-if-necessary
 
     # If left or right was pressed, merge blocks without rotating.
-    /^[LR]/b merge
+    /^[LR]/b reverse-if-necessary
 
     # Clockwise rotation:
     #
@@ -87,6 +87,19 @@
     s/:.(.)..:.(.)..:.(.)..:.(.).. .*/&\4\3\2\1:/
     s/:..(.).:..(.).:..(.).:..(.). .*/&\4\3\2\1:/
     s/:...(.):...(.):...(.):...(.) .*/&\4\3\2\1/
+
+    s/:....:....:....:.... /:/
+
+
+:reverse-if-necessary
+
+    # If right or up was pressed, reverse the order of the cells on
+    # each line.
+    /^[LD]/b merge
+
+    # Generate the new order and place it after the existing order.
+    s/:(.)(.)(.)(.):(.)(.)(.)(.):....:.....*/& \4\3\2\1:\8\7\6\5:/
+    s/:....:....:(.)(.)(.)(.):(.)(.)(.)(.) .*/&\4\3\2\1:\8\7\6\5/
 
     s/:....:....:....:.... /:/
 
@@ -141,28 +154,25 @@
     }
 
 
-:pad
-
-    # If right (or a rotated up), pad left. Otherwise, pad right.
-    /^[RU]/b pad-left
-
-
 :pad-right
 
     # Add an extra four dashes to the right of the line, then trim the
     # line to the left-most four characters.
     s/(:[^:]*)/\1----/g
     s/(:....)[^:]*/\1/g
-    b rotate-backwards-if-necessary
 
 
-:pad-left
+:reverse-again-if-necessary
 
-    # Add an extra four dashes to the left of the line, then trim the
-    # line to the right-most four characters.
-    s/:([^:]*)/:----\1/g
-    s/[^:]*(....)(:|$)/\1\2/g
-    b rotate-backwards-if-necessary
+    # If right or up was pressed, reverse the order of the cells on
+    # each line.
+    /^[LD]/b rotate-backwards-if-necessary
+
+    # Generate the new order and place it after the existing order.
+    s/:(.)(.)(.)(.):(.)(.)(.)(.):....:.....*/& \4\3\2\1:\8\7\6\5:/
+    s/:....:....:(.)(.)(.)(.):(.)(.)(.)(.) .*/&\4\3\2\1:\8\7\6\5/
+
+    s/:....:....:....:.... /:/
 
 
 :rotate-backwards-if-necessary
