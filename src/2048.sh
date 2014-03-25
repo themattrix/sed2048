@@ -43,6 +43,26 @@ function sed_2048() {
     "${THIS_DIR}/lib/2048.sed"
 }
 
+function print_score() {
+    awk -F'[_|>]+' '
+        /^ _/{
+            // Start board
+            score = 0
+        }
+        /^\|/{
+            // Board row
+            score += $1 + $2 + $3 + $4
+        }
+        /^$/{
+            // End board
+            print "\nScore: "score
+        }
+        {
+            // Any line
+            print $0
+        }'
+}
+
 echo
 echo " ___________________| 2048.sed |___________________ "
 echo "|                                                  |"
@@ -50,4 +70,4 @@ echo "| Use the W/A/S/D keys to play and CTRL+C to quit. |"
 echo "|__________________________________________________|"
 echo
 
-gather_input | sed_2048
+gather_input | sed_2048 | print_score
