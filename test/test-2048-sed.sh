@@ -64,6 +64,66 @@ function test_merge_down() {
         )
 }
 
+function test_merge_right_weighted_right() {
+    diff_board <({
+            echo ":-bbb:----:----:----"
+            echo "R 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|>__2|____|___4|___8|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo
+        )
+}
+
+function test_merge_left_weighted_left() {
+    diff_board <({
+            echo ":-bbb:----:----:----"
+            echo "L 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|8___|4___|____|>__2|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo
+        )
+}
+
+function test_merge_up_weighted_up() {
+    diff_board <({
+            echo ":---b:---b:---b:----"
+            echo "U 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|>__2|____|____|___8|"
+            echo "|____|____|____|___4|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo
+        )
+}
+
+function test_merge_down_weighted_down() {
+    diff_board <({
+            echo ":----:---b:---b:---b"
+            echo "D 1"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|>__2|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|___4|"
+            echo "|____|____|____|___8|"
+            echo
+        )
+}
+
 function test_populate_cell_1() {
     diff_board <({
             echo ":----:----:----:---a"
@@ -636,6 +696,10 @@ run test_merge_right
 run test_merge_left
 run test_merge_up
 run test_merge_down
+run test_merge_right_weighted_right
+run test_merge_left_weighted_left
+run test_merge_up_weighted_up
+run test_merge_down_weighted_down
 run test_populate_cell_1
 run test_populate_cell_2
 run test_populate_cell_3
