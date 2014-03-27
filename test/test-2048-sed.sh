@@ -15,7 +15,6 @@ function test_merge_right() {
             echo "|____|____|___8|___8|"
             echo "|____|____|___8|___8|"
             echo "|____|____|___8|___8|"
-            echo
         )
 }
 
@@ -30,7 +29,6 @@ function test_merge_left() {
             echo "|___8|___8|____|____|"
             echo "|___8|___8|____|____|"
             echo "|___8|___8|____|____|"
-            echo
         )
 }
 
@@ -45,7 +43,6 @@ function test_merge_up() {
             echo "|___8|___8|___8|___8|"
             echo "|>__2|____|____|____|"
             echo "|____|____|____|____|"
-            echo
         )
 }
 
@@ -60,7 +57,6 @@ function test_merge_down() {
             echo "|____|____|____|____|"
             echo "|___8|___8|___8|___8|"
             echo "|___8|___8|___8|___8|"
-            echo
         )
 }
 
@@ -75,7 +71,6 @@ function test_merge_right_weighted_right() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
-            echo
         )
 }
 
@@ -90,7 +85,6 @@ function test_merge_left_weighted_left() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
-            echo
         )
 }
 
@@ -105,7 +99,6 @@ function test_merge_up_weighted_up() {
             echo "|____|____|____|___4|"
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
-            echo
         )
 }
 
@@ -120,7 +113,6 @@ function test_merge_down_weighted_down() {
             echo "|____|____|____|____|"
             echo "|____|____|____|___4|"
             echo "|____|____|____|___8|"
-            echo
         )
 }
 
@@ -135,7 +127,6 @@ function test_populate_cell_1() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -150,7 +141,6 @@ function test_populate_cell_2() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -165,7 +155,6 @@ function test_populate_cell_3() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -180,7 +169,6 @@ function test_populate_cell_4() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -195,7 +183,6 @@ function test_populate_cell_5() {
             echo "|>__2|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -210,7 +197,6 @@ function test_populate_cell_6() {
             echo "|____|>__2|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -225,7 +211,6 @@ function test_populate_cell_7() {
             echo "|____|____|>__2|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -240,7 +225,6 @@ function test_populate_cell_8() {
             echo "|____|____|____|>__2|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -255,7 +239,6 @@ function test_populate_cell_9() {
             echo "|____|____|____|____|"
             echo "|>__2|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -270,7 +253,6 @@ function test_populate_cell_10() {
             echo "|____|____|____|____|"
             echo "|____|>__2|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -285,7 +267,6 @@ function test_populate_cell_11() {
             echo "|____|____|____|____|"
             echo "|____|____|>__2|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -300,7 +281,6 @@ function test_populate_cell_12() {
             echo "|____|____|____|____|"
             echo "|____|____|____|>__2|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -315,7 +295,6 @@ function test_populate_cell_12_after() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|>__2|____|____|____|"
-            echo
         )
 }
 
@@ -330,7 +309,6 @@ function test_populate_cell_13_after() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|>__2|____|____|"
-            echo
         )
 }
 
@@ -345,7 +323,6 @@ function test_populate_cell_14_after() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|____|>__2|____|"
-            echo
         )
 }
 
@@ -360,7 +337,6 @@ function test_populate_cell_15_after() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|____|____|>__2|"
-            echo
         )
 }
 
@@ -375,7 +351,6 @@ function test_populate_cell_16_mod_15() {
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|___2|____|____|____|"
-            echo
         )
 }
 
@@ -390,7 +365,6 @@ function test_populate_cell_16_mod_1() {
             echo "|__32|__64|_128|_256|"
             echo "|___2|___4|___8|__16|"
             echo "|__32|__64|_128|_256|"
-            echo
         )
 }
 
@@ -405,7 +379,6 @@ function test_populate_cell_10_mod_4() {
             echo "|__32|__64|_128|>__2|"
             echo "|___4|___8|__16|____|"
             echo "|__32|__64|_128|____|"
-            echo
         )
 }
 
@@ -420,7 +393,6 @@ function test_populate_cell_13_mod_3() {
             echo "|__32|__64|_128|____|"
             echo "|___4|___8|__16|____|"
             echo "|__32|__64|_128|_256|"
-            echo
         )
 }
 
@@ -646,7 +618,7 @@ function sed_2048() {
 }
 
 function last_board() {
-    tail -n 6
+    grep "^[| ]" | tail -n 5
 }
 
 function diff_board() {
