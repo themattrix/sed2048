@@ -424,6 +424,8 @@ function test_game_to_4096() {
             echo "|1024|____|____|__32|"
             echo "|_512|_256|_128|__64|"
             echo
+            echo "Score: 0"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -431,6 +433,8 @@ function test_game_to_4096() {
             echo "|____|____|2048|__16|"
             echo "|____|____|1024|__32|"
             echo "|_512|_256|_128|__64|"
+            echo
+            echo "Score: 0"
             echo
             echo "You win!"
             echo
@@ -440,6 +444,8 @@ function test_game_to_4096() {
             echo "|____|____|1024|__32|"
             echo "|_512|_256|_128|__64|"
             echo
+            echo "Score: 4"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -447,6 +453,8 @@ function test_game_to_4096() {
             echo "|____|____|2048|__16|"
             echo "|____|____|1024|__32|"
             echo "|_512|_256|_128|__64|"
+            echo
+            echo "Score: 12"
             echo
             echo "You win!"
             echo
@@ -456,6 +464,8 @@ function test_game_to_4096() {
             echo "|____|____|1024|__32|"
             echo "|_512|_256|_128|__64|"
             echo
+            echo "Score: 32"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -463,6 +473,8 @@ function test_game_to_4096() {
             echo "|____|____|2048|__32|"
             echo "|___2|____|1024|__32|"
             echo "|_512|_256|_128|__64|"
+            echo
+            echo "Score: 64"
             echo
             echo "You win!"
             echo
@@ -472,6 +484,8 @@ function test_game_to_4096() {
             echo "|___4|____|1024|__64|"
             echo "|_512|_256|_128|__64|"
             echo
+            echo "Score: 132"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -479,6 +493,8 @@ function test_game_to_4096() {
             echo "|___2|____|2048|____|"
             echo "|___4|____|1024|____|"
             echo "|_512|_256|_128|_128|"
+            echo
+            echo "Score: 260"
             echo
             echo "You win!"
             echo
@@ -488,6 +504,8 @@ function test_game_to_4096() {
             echo "|___4|1024|____|____|"
             echo "|_512|_256|_256|____|"
             echo
+            echo "Score: 516"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -495,6 +513,8 @@ function test_game_to_4096() {
             echo "|___2|2048|____|____|"
             echo "|___4|1024|____|____|"
             echo "|_512|_512|____|____|"
+            echo
+            echo "Score: 1028"
             echo
             echo "You win!"
             echo
@@ -504,6 +524,8 @@ function test_game_to_4096() {
             echo "|___4|1024|____|____|"
             echo "|1024|____|____|____|"
             echo
+            echo "Score: 2056"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -511,6 +533,8 @@ function test_game_to_4096() {
             echo "|____|____|___2|2048|"
             echo "|____|____|___4|1024|"
             echo "|____|____|____|1024|"
+            echo
+            echo "Score: 2064"
             echo
             echo "You win!"
             echo
@@ -520,6 +544,8 @@ function test_game_to_4096() {
             echo "|____|____|___4|2048|"
             echo "|____|____|____|____|"
             echo
+            echo "Score: 4112"
+            echo
             echo "You win!"
             echo
             echo " ___________________"
@@ -527,6 +553,8 @@ function test_game_to_4096() {
             echo "|>__2|____|___2|4096|"
             echo "|____|____|___4|____|"
             echo "|____|____|____|____|"
+            echo
+            echo "Score: 8212"
             echo
             echo "You win!"
             echo
@@ -545,11 +573,15 @@ function test_win() {
             echo "|____|____|____|1024|"
             echo "|____|____|____|1024|"
             echo
+            echo "Score: 0"
+            echo
             echo " ___________________"
             echo "|>__2|____|____|2048|"
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
             echo "|____|____|____|____|"
+            echo
+            echo "Score: 2048"
             echo
             echo "You win!"
             echo
@@ -568,6 +600,8 @@ function test_game_over() {
             echo "|___2|___4|___8|__16|"
             echo "|__32|__64|_128|_256|"
             echo
+            echo "Score: 0"
+            echo
             echo "No more moves! Game over."
         )
 }
@@ -584,6 +618,8 @@ function test_game_over_checkerboard() {
             echo "|___2|___4|___2|___4|"
             echo "|___4|___2|___4|___2|"
             echo
+            echo "Score: 0"
+            echo
             echo "No more moves! Game over."
         )
 }
@@ -599,6 +635,8 @@ function test_win_and_game_over() {
             echo "|__32|__64|_128|_256|"
             echo "|___2|___4|___8|__16|"
             echo "|__32|__64|_128|2048|"
+            echo
+            echo "Score: 0"
             echo
             echo "You win!"
             echo
