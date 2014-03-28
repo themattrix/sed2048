@@ -2,15 +2,21 @@
 
 readonly THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-function get_random() {
+function get_random_cell() {
     local range=$1
     echo "$(($RANDOM % $range + 1))"
 }
 
+function get_random_cell_value() {
+    # 90% chance of spawning a "2"
+    # 10% chance of spawning a "4"
+    echo "$(($RANDOM % 10 == 0 ? 4 : 2))"
+}
+
 function initial_board() {
     sed -r \
-        -e "s/-/a/$(get_random 16)" \
-        -e "s/-/a/$(get_random 15)" \
+        -e "s/-/a/$(get_random_cell 16)" \
+        -e "s/-/a/$(get_random_cell 15)" \
         <<< ":----:----:----:----"
 }
 
@@ -34,7 +40,7 @@ function gather_input() {
         
         if [ -n "${arrow}" ]
         then
-            echo "${arrow} $(get_random 16)"
+            echo "${arrow} $(get_random_cell 16),$(get_random_cell_value)"
         fi
     done
 }

@@ -274,7 +274,7 @@
     # with the new score. The new score appears immediately after the newline.
     x
     G
-    s/^(. [0-9]+ )([0-9+]+)(.*)\n(.*)/\1+\4\3/
+    s/^(. [0-9,]+ )([0-9+]+)(.*)\n(.*)/\1+\4\3/
 
 :add-score-end
 
@@ -349,23 +349,49 @@
         s/(:....){4} /&&&&&&&&&&&&&&&&/
 
         # These replacements could be in any order, since only one will
-        # happen.
-        / 16 /s/-/A/16
-        / 15 /s/-/A/15
-        / 14 /s/-/A/14
-        / 13 /s/-/A/13
-        / 12 /s/-/A/12
-        / 11 /s/-/A/11
-        / 10 /s/-/A/10
-        / 9 /s/-/A/9
-        / 8 /s/-/A/8
-        / 7 /s/-/A/7
-        / 6 /s/-/A/6
-        / 5 /s/-/A/5
-        / 4 /s/-/A/4
-        / 3 /s/-/A/3
-        / 2 /s/-/A/2
-        / 1 /s/-/A/1
+        # happen. The "t end-cell-fill" commands are also not required.
+        # These are simply a performance optimization.
+        :cell-fill t cell-fill
+
+            /,2/{
+                / 1,/s/-/A/1;   t end-cell-fill
+                / 2,/s/-/A/2;   t end-cell-fill
+                / 3,/s/-/A/3;   t end-cell-fill
+                / 4,/s/-/A/4;   t end-cell-fill
+                / 5,/s/-/A/5;   t end-cell-fill
+                / 6,/s/-/A/6;   t end-cell-fill
+                / 7,/s/-/A/7;   t end-cell-fill
+                / 8,/s/-/A/8;   t end-cell-fill
+                / 9,/s/-/A/9;   t end-cell-fill
+                / 10,/s/-/A/10; t end-cell-fill
+                / 11,/s/-/A/11; t end-cell-fill
+                / 12,/s/-/A/12; t end-cell-fill
+                / 13,/s/-/A/13; t end-cell-fill
+                / 14,/s/-/A/14; t end-cell-fill
+                / 15,/s/-/A/15; t end-cell-fill
+                / 16,/s/-/A/16; t end-cell-fill
+            }
+
+            /,4/{
+                / 1,/s/-/B/1;   t end-cell-fill
+                / 2,/s/-/B/2;   t end-cell-fill
+                / 3,/s/-/B/3;   t end-cell-fill
+                / 4,/s/-/B/4;   t end-cell-fill
+                / 5,/s/-/B/5;   t end-cell-fill
+                / 6,/s/-/B/6;   t end-cell-fill
+                / 7,/s/-/B/7;   t end-cell-fill
+                / 8,/s/-/B/8;   t end-cell-fill
+                / 9,/s/-/B/9;   t end-cell-fill
+                / 10,/s/-/B/10; t end-cell-fill
+                / 11,/s/-/B/11; t end-cell-fill
+                / 12,/s/-/B/12; t end-cell-fill
+                / 13,/s/-/B/13; t end-cell-fill
+                / 14,/s/-/B/14; t end-cell-fill
+                / 15,/s/-/B/15; t end-cell-fill
+                / 16,/s/-/B/16; t end-cell-fill
+            }
+
+        :end-cell-fill
 
         # Find the copy with the replaced open cell and use that one. The
         # most likely option is that the original copy contains the
@@ -397,7 +423,7 @@
 
     # Remove key press direction and random cell number, but leave the
     # score and the board.
-    s/^. [0-9]+ //
+    s/^. [0-9,]+ //
 
     # Copy board layout and score to hold buffer for next time.
     h
@@ -411,6 +437,7 @@
     s/-/|____/g
     s/a/|___2/g
     s/A/|>__2/g
+    s/B/|>__4/g
     s/b/|___4/g
     s/c/|___8/g
     s/d/|__16/g
@@ -423,9 +450,9 @@
     s/k/|2048/g
     s/l/|4096/g
 
-    # Replace the *new* "2" with a normal one in the hold buffer.
+    # Replace the *new* cell with a normal one in the hold buffer.
     x
-    s/A/a/
+    y/AB/ab/
     x
 
     # Split board into multiple lines and draw borders.

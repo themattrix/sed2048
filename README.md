@@ -9,6 +9,6 @@ Use the `W`, `A`, `S`, `D` keys to control. Run with:
 
 Gameplay difference from the original 2048 game:
 
-- New cells are populated only with 2's, instead of having a small chance of a 4 appearing.
+- None that I'm aware of :)
 
 > Note for OS X users: The version of sed installed by default has different options than the Linux one. Notably, it does not have the extended-regex option `-r`. A compatible version is available through [homebrew](http://brew.sh/): `brew install gnu-sed --default-names` (the `--default-names` flag is used to ensure it installs as `sed` and not `gsed`). You can also build the latest version from here: http://sed.sourceforge.net/
