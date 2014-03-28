@@ -1,4 +1,4 @@
-#!/bin/sed -rnuf
+#!/bin/sed -Enuf
 
 :initial-board
 
