@@ -2,8 +2,14 @@
 
 :initial-board
 
-    # The very first input line is the initial board. Let's output it.
-    /:/b output
+    # The very first input line is the initial board.
+    /:/{
+        # Insert the initial score (always zero).
+        s/^/+0/
+        
+        # Output initial board.
+        b output
+    }
 
 
 :next
@@ -13,7 +19,7 @@
     # the pattern buffer so that we can use the existing board with the
     # new key-press.
     G
-    s/\n//
+    s/\n/ /
 
 
 :check-if-game-is-over
@@ -109,33 +115,14 @@
     # Collapse spaces.
     s/-//g
 
-    # Jump to next line to clear conditional jump state.
-    t try-merge
-
-    # Merge cells. We merge them in high-to-low order so that four
-    # "2" cells become two "4" cells and not a single "8" cell.
-    :try-merge
-
-        s/kk/l/g
-        s/jj/k/g
-        s/ii/j/g
-        s/hh/i/g
-        s/gg/h/g
-        s/ff/g/g
-        s/ee/f/g
-        s/dd/e/g
-        s/cc/d/g
-        s/bb/c/g
-        s/aa/b/g
-
     # If this is a dry run...
     /^.d /{
-        # ...and a merge was made, end the dry-run.
-        t end-dry-run
+        # ...and a merge can be made, end the dry-run.
+        /([a-k])\1/b end-dry-run
 
         # Otherwise, restore the board state from the hold buffer...
         G
-        s/:.*\n//
+        s/\+.*\n//
 
         # ...and check again to see if the game is over.
         b check-if-game-is-over
@@ -147,11 +134,71 @@
             
             # Restore the board state from the hold buffer.
             G
-            s/:.*\n//
+            s/\+.*\n//
             
             # Continue game :)
             b game-not-over
     }
+
+    # Merge cells. We merge them in high-to-low order so that four
+    # "2" cells become two "4" cells and not a single "8" cell.
+    :try-merge t try-merge
+
+        :merge-k /kk/{
+            s/kk/l/
+            s/\+/+4096+/
+            b merge-k
+        }
+        :merge-j /jj/{
+            s/jj/k/
+            s/\+/+2048+/
+            b merge-j
+        }
+        :merge-i /ii/{
+            s/ii/j/
+            s/\+/+1024+/
+            b merge-i
+        }
+        :merge-h /hh/{
+            s/hh/i/
+            s/\+/+512+/
+            b merge-h
+        }
+        :merge-g /gg/{
+            s/gg/h/
+            s/\+/+256+/
+            b merge-g
+        }
+        :merge-f /ff/{
+            s/ff/g/
+            s/\+/+128+/
+            b merge-f
+        }
+        :merge-e /ee/{
+            s/ee/f/
+            s/\+/+64+/
+            b merge-e
+        }
+        :merge-d /dd/{
+            s/dd/e/
+            s/\+/+32+/
+            b merge-d
+        }
+        :merge-c /cc/{
+            s/cc/d/
+            s/\+/+16+/
+            b merge-c
+        }
+        :merge-b /bb/{
+            s/bb/c/
+            s/\+/+8+/
+            b merge-b
+        }
+        :merge-a /aa/{
+            s/aa/b/
+            s/\+/+4+/
+            b merge-a
+        }
 
 
 :pad-right
@@ -160,6 +207,76 @@
     # line to the left-most four characters.
     s/(:[^:]*)/\1----/g
     s/(:....)[^:]*/\1/g
+
+
+:add-score
+    
+    /\+.*\+/!b add-score-end
+
+    # Calculate the new score (we'll do this in the hold buffer to make it easier).
+    h
+    x
+
+    # Get rid of everything except the score components.
+    s/.* \+([0-9+]+).*/\1/
+
+    :add-number t add-number
+    :combination-sums
+
+        s/$/ 00=0,01=1,02=2,03=3,04=4,05=5,06=6,07=7,08=8,09=9/
+        s/$/,11=2,12=3,13=4,14=5,15=6,16=7,17=8,18=9,19=_0/
+        s/$/,22=4,23=5,24=6,25=7,26=8,27=9,28=_0,29=_1/
+        s/$/,33=6,34=7,35=8,36=9,37=_0,38=_1,39=_2/
+        s/$/,44=8,45=9,46=_0,47=_1,48=_2,49=_3/
+        s/$/,55=_0,56=_1,57=_2,58=_3,59=_4/
+        s/$/,66=_2,67=_3,68=_4,69=_5/
+        s/$/,77=_4,78=_5,79=_6/
+        s/$/,88=_6,89=_7/
+        s/$/,99=_8 /
+        
+        s/\+[0-9]+/_&_/
+
+
+    :zero-pad t zero-pad
+
+        s/^_[0-9]+\+[^_]/0&/
+        s/^([^_][0-9_]+\+)_/\10_/
+
+        :do-add t do-add
+
+            s/([0-9])_(.*)([0-9])_(.*(\1\3|\3\1)=)([0-9_]+)(.*) 0?(.*)/_\1\2_\3\4\6\7 0\6\8/
+            t zero-pad
+
+        s/^[^+]+\+[^+]+(.*) .* (.*)$/0123456789 \2\1/
+
+
+    :shift t shift
+
+        /_/{
+            s/(([0-9])([0-9])[0-9]* [0-9_]*)\2_([0-9]*)(\+|$)/\1\3\4\5/
+            t shift
+            s/( [0-9_]*)9_([0-9]*)(\+|$)/\1_0\2\3/
+            t shift
+        }
+
+
+    :shift-end t shift-end
+
+        s/^0123456789 //
+        s/^0+(.)/\1/
+
+        # If there's still a "+", add another number.
+        /\+/b add-number
+
+    
+    # The hold buffer now contains the current score. Put it back in the
+    # pattern buffer, then replace the old score components (e.g., +4+16+4)
+    # with the new score. The new score appears immediately after the newline.
+    x
+    G
+    s/^(. [0-9]+ )([0-9+]+)(.*)\n(.*)/\1+\4\3/
+
+:add-score-end
 
 
 :reverse-again-if-necessary
@@ -212,7 +329,7 @@
     # This is easy to check, since the *before* state is still in the
     # hold buffer. To compare, we'll simply append the hold buffer to
     # the pattern buffer and see if the pattern buffer appears twice.
-    
+
     # Append *before* state to *after* state (separated by a newline).
     G
 
@@ -228,27 +345,27 @@
         # Replacement for a modulus operator. Fill the Nth open cell,
         # mod number-of-open-cells. Instead of filling the cell with an
         # "a" (2), we use an "A" so that that it can be specially marked
-        # when output.
+        # as a *new* cell when the board is output.
         s/(:....){4} /&&&&&&&&&&&&&&&&/
 
         # These replacements could be in any order, since only one will
         # happen.
-        / 16:/s/-/A/16
-        / 15:/s/-/A/15
-        / 14:/s/-/A/14
-        / 13:/s/-/A/13
-        / 12:/s/-/A/12
-        / 11:/s/-/A/11
-        / 10:/s/-/A/10
-        / 9:/s/-/A/9
-        / 8:/s/-/A/8
-        / 7:/s/-/A/7
-        / 6:/s/-/A/6
-        / 5:/s/-/A/5
-        / 4:/s/-/A/4
-        / 3:/s/-/A/3
-        / 2:/s/-/A/2
-        / 1:/s/-/A/1
+        / 16 /s/-/A/16
+        / 15 /s/-/A/15
+        / 14 /s/-/A/14
+        / 13 /s/-/A/13
+        / 12 /s/-/A/12
+        / 11 /s/-/A/11
+        / 10 /s/-/A/10
+        / 9 /s/-/A/9
+        / 8 /s/-/A/8
+        / 7 /s/-/A/7
+        / 6 /s/-/A/6
+        / 5 /s/-/A/5
+        / 4 /s/-/A/4
+        / 3 /s/-/A/3
+        / 2 /s/-/A/2
+        / 1 /s/-/A/1
 
         # Find the copy with the replaced open cell and use that one. The
         # most likely option is that the original copy contains the
@@ -257,7 +374,7 @@
 
         # Otherwise, the first copy can be used as a model from which
         # 14 other copies will match. Pull out the modified copy.
-        s/^(. [0-9]+)((:....){4} )\2*((:....){4} )\2*$/\1\4/
+        s/^([^:]+)((:....){4} )\2*((:....){4} )\2*/\1\4/
 
         # Remove the trailing space and output the board.
         s/ $//
@@ -278,15 +395,16 @@
         q
     }
 
-    # Remove key press direction and random cell number.
-    s/^[^:]*//
+    # Remove key press direction and random cell number, but leave the
+    # score and the board.
+    s/^. [0-9]+ //
 
-    # Copy board layout to hold buffer for next time.
+    # Copy board layout and score to hold buffer for next time.
     h
 
-    # If the "2048" (k) or higher cell appears, you've won! Append a
-    # "win" (w) flag to the beginning of the pattern buffer.
-    /[kl]/s/^/w /
+    # If the "2048" (k) or higher cell appears, you've won! Add a "win"
+    # flag to the pattern buffer.
+    /[kl]/s/:/w:/
 
     # Replace tokens with real numbers. The newly-populated cell is
     # marked with a ">".
@@ -316,7 +434,11 @@
     s/\n/|&/2g
     s/\n/ ___________________&/
 
-    s/w (.*)/\1\nYou win!\n/
+    # Format the score.
+    s/^\+([0-9]+)(.*)/\2\nScore: \1\n/
+
+    # Winner, winner, chicken dinner!
+    s/^w(.*)/\1\nYou win!\n/
 
     # Output board.
     p

@@ -660,7 +660,7 @@ function last_board() {
 }
 
 function diff_board() {
-    diff -y --width=60 "$@"
+    diff -y "$@"
 }
 
 function run() {
