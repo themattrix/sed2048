@@ -128,13 +128,23 @@ function colorize() {
 }
 
 function main() {
-    if [ "${1}" == "--no-color" ]
+    local color=0
+
+    for arg in "$@"
+    do
+        if [ "${arg}" == "--color" ]
+        then
+            color=1
+        fi
+    done
+
+    if [ "${color}" -eq 1 ]
     then
+        define_colors
+    else
         function colorize() {
             cat
         }
-    else
-        define_colors
     fi
 
     echo
