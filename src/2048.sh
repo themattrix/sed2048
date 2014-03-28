@@ -14,10 +14,11 @@ function get_random_cell_value() {
 }
 
 function initial_board() {
-    sed -r \
-        -e "s/-/a/$(get_random_cell 16)" \
-        -e "s/-/a/$(get_random_cell 15)" \
-        <<< ":----:----:----:----"
+    sed -E -e "
+        s/-/$(get_random_cell_value)/$(get_random_cell 16)
+        s/-/$(get_random_cell_value)/$(get_random_cell 15)
+        y/24/ab/
+    " <<< ":----:----:----:----"
 }
 
 function gather_input() {
