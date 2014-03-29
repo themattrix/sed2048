@@ -7,6 +7,10 @@ Use the `W`, `A`, `S`, `D` keys to control. Run with:
 
     $ ./src/2048.sh
 
+Enable colorized output with:
+
+    $ ./src/2048.sh --color
+
 Gameplay difference from the original 2048 game:
 
 - None that I'm aware of :)
