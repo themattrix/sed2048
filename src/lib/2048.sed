@@ -213,7 +213,11 @@
     
     /\+.*\+/!b add-score-end
 
-    # Calculate the new score (we'll do this in the hold buffer to make it easier).
+    # Calculate the new score (we'll do this in the hold buffer to make
+    # it easier). Since the old board state is currently in the hold
+    # buffer and we'll need it later, we'll preserve it by appending it
+    # to the pattern buffer temporarily.
+    G
     h
     x
 
@@ -271,10 +275,18 @@
     
     # The hold buffer now contains the current score. Put it back in the
     # pattern buffer, then replace the old score components (e.g., +4+16+4)
-    # with the new score. The new score appears immediately after the newline.
+    # with the new score. The new score appears immediately after the
+    # second newline.
     x
     G
-    s/^(. [0-9,]+ )([0-9+]+)(.*)\n(.*)/\1+\4\3/
+    s/^(. [0-9,]+ )([0-9+]+)(.*)(\n.*)\n(.*)/\1+\5\3\4/
+
+    # Now let's restore the old board state to the hold buffer.
+    h
+    x
+    s/.*\n//
+    x
+    s/\n.*//
 
 :add-score-end
 
@@ -333,7 +345,7 @@
     # Append *before* state to *after* state (separated by a newline).
     G
 
-    /((:....){4})\n\1/!{
+    /((:....){4})\n.*\1/!{
         # The before/after board states differ. Because they differ, 
         # populate the Nth empty cell with a "2". N is a number between
         # 1 and 16 (inclusive). It was pseudo-randomly chosen by the
