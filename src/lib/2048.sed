@@ -353,45 +353,28 @@
         # These are simply a performance optimization.
         :cell-fill t cell-fill
 
-            /,2/{
-                / 1,/s/-/A/1;   t end-cell-fill
-                / 2,/s/-/A/2;   t end-cell-fill
-                / 3,/s/-/A/3;   t end-cell-fill
-                / 4,/s/-/A/4;   t end-cell-fill
-                / 5,/s/-/A/5;   t end-cell-fill
-                / 6,/s/-/A/6;   t end-cell-fill
-                / 7,/s/-/A/7;   t end-cell-fill
-                / 8,/s/-/A/8;   t end-cell-fill
-                / 9,/s/-/A/9;   t end-cell-fill
-                / 10,/s/-/A/10; t end-cell-fill
-                / 11,/s/-/A/11; t end-cell-fill
-                / 12,/s/-/A/12; t end-cell-fill
-                / 13,/s/-/A/13; t end-cell-fill
-                / 14,/s/-/A/14; t end-cell-fill
-                / 15,/s/-/A/15; t end-cell-fill
-                / 16,/s/-/A/16; t end-cell-fill
-            }
-
-            /,4/{
-                / 1,/s/-/B/1;   t end-cell-fill
-                / 2,/s/-/B/2;   t end-cell-fill
-                / 3,/s/-/B/3;   t end-cell-fill
-                / 4,/s/-/B/4;   t end-cell-fill
-                / 5,/s/-/B/5;   t end-cell-fill
-                / 6,/s/-/B/6;   t end-cell-fill
-                / 7,/s/-/B/7;   t end-cell-fill
-                / 8,/s/-/B/8;   t end-cell-fill
-                / 9,/s/-/B/9;   t end-cell-fill
-                / 10,/s/-/B/10; t end-cell-fill
-                / 11,/s/-/B/11; t end-cell-fill
-                / 12,/s/-/B/12; t end-cell-fill
-                / 13,/s/-/B/13; t end-cell-fill
-                / 14,/s/-/B/14; t end-cell-fill
-                / 15,/s/-/B/15; t end-cell-fill
-                / 16,/s/-/B/16; t end-cell-fill
-            }
+            / 1,/s/-/A/1;   t end-cell-fill
+            / 2,/s/-/A/2;   t end-cell-fill
+            / 3,/s/-/A/3;   t end-cell-fill
+            / 4,/s/-/A/4;   t end-cell-fill
+            / 5,/s/-/A/5;   t end-cell-fill
+            / 6,/s/-/A/6;   t end-cell-fill
+            / 7,/s/-/A/7;   t end-cell-fill
+            / 8,/s/-/A/8;   t end-cell-fill
+            / 9,/s/-/A/9;   t end-cell-fill
+            / 10,/s/-/A/10; t end-cell-fill
+            / 11,/s/-/A/11; t end-cell-fill
+            / 12,/s/-/A/12; t end-cell-fill
+            / 13,/s/-/A/13; t end-cell-fill
+            / 14,/s/-/A/14; t end-cell-fill
+            / 15,/s/-/A/15; t end-cell-fill
+            / 16,/s/-/A/16; t end-cell-fill
 
         :end-cell-fill
+
+            # If we're filling the new cell with "4" instead of "2",
+            # replace the "A" with a "B".
+            /,4/s/A/B/
 
         # Find the copy with the replaced open cell and use that one. The
         # most likely option is that the original copy contains the
