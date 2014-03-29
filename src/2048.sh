@@ -127,6 +127,18 @@ function colorize() {
         }"
 }
 
+function print_help_and_exit() {
+    {
+        echo "$(basename "$0") [--color] [--no-color] [--help]"
+        echo
+        echo "--color       Colorize the board."
+        echo "--no-color    Do not colorize the board (default)."
+        echo "--help        Print this help."
+    } 2>&1
+
+    exit 1
+}
+
 function main() {
     local color=0
 
@@ -135,6 +147,11 @@ function main() {
         if [ "${arg}" == "--color" ]
         then
             color=1
+        elif [ "${arg}" == "--no-color" ]
+        then
+            color=0
+        else
+            print_help_and_exit
         fi
     done
 
