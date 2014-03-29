@@ -684,6 +684,61 @@ function test_win_and_game_over() {
         )
 }
 
+function test_no_new_tile_on_no_board_change_right() {
+    diff_board <({
+            echo ":---a:---a:---a:---a"
+            echo "R 1,2"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|___2|"
+            echo "|____|____|____|___2|"
+            echo "|____|____|____|___2|"
+            echo "|____|____|____|___2|"
+        )
+}
+
+function test_no_new_tile_on_no_board_change_left() {
+    diff_board <({
+            echo ":a---:a---:a---:a---"
+            echo "L 1,2"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___2|____|____|____|"
+            echo "|___2|____|____|____|"
+            echo "|___2|____|____|____|"
+            echo "|___2|____|____|____|"
+        )
+}
+
+function test_no_new_tile_on_no_board_change_up() {
+    diff_board <({
+            echo ":aaaa:----:----:----"
+            echo "U 1,2"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|___2|___2|___2|___2|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+        )
+}
+
+function test_no_new_tile_on_no_board_change_down() {
+    diff_board <({
+            echo ":----:----:----:aaaa"
+            echo "D 1,2"
+        } | sed_2048 | last_board
+        ) <(
+            echo " ___________________"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|____|____|____|____|"
+            echo "|___2|___2|___2|___2|"
+        )
+}
 
 #
 # Test helpers
@@ -757,6 +812,10 @@ run test_win
 run test_game_over
 run test_game_over_checkerboard
 run test_win_and_game_over
+run test_no_new_tile_on_no_board_change_right
+run test_no_new_tile_on_no_board_change_left
+run test_no_new_tile_on_no_board_change_up
+run test_no_new_tile_on_no_board_change_down
 
 for v in 2 4
 do
