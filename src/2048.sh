@@ -47,7 +47,7 @@ function gather_input() {
 }
 
 function sed_2048() {
-    "${THIS_DIR}/lib/2048.sed"
+    sed -E -n -u -f "${THIS_DIR}/lib/2048.sed"
 }
 
 function define_colors() {

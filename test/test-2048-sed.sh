@@ -747,7 +747,7 @@ function test_no_new_tile_on_no_board_change_down() {
 readonly THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 function sed_2048() {
-    "${THIS_DIR}/../src/lib/2048.sed"
+    sed -E -n -u -f "${THIS_DIR}/../src/lib/2048.sed"
 }
 
 function last_board() {
