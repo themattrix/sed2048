@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 readonly THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly HIGH_SCORE_FILE="${THIS_DIR}/../.highscore"
 
 function get_random_cell() {
     local range=$1
@@ -48,6 +49,33 @@ function gather_input() {
 
 function sed_2048() {
     sed -E -n -u -f "${THIS_DIR}/lib/2048.sed"
+}
+
+function normalize_high_score() {
+    if [ -e "${HIGH_SCORE_FILE}" ]
+    then
+        sed -i -n -e '$p' "${HIGH_SCORE_FILE}"
+    else
+        echo "0" > "${HIGH_SCORE_FILE}"
+    fi
+}
+
+function high_score() {
+    awk -v high="$(cat "${HIGH_SCORE_FILE}")" '
+        /^Score:/{
+            score = int(substr($0, match($0, /[0-9]+/)))
+
+            if (score > high) {
+                print score > "'"${HIGH_SCORE_FILE}"'"
+                high = score
+            }
+
+            $0=$0"\n High: "high
+        }
+        {
+            print $0
+            fflush()
+        }'
 }
 
 function define_colors() {
@@ -104,7 +132,7 @@ function define_colors() {
 
 function colorize() {
     sed -E -u -e "
-        /^ /{
+        /^ _/{
             s/_+/$(printf "${bldblk}")&$(printf "${txtrst}")/
             b
         }
@@ -124,6 +152,9 @@ function colorize() {
             s/2048/$(printf "${clr_2048}")/g
             s/4096/$(printf "${clr_4096}")/g
             s/_/ /g
+        }
+        /High:/{
+            s/.*/$(printf "${clr_divi}")/
         }"
 }
 
@@ -171,7 +202,14 @@ function main() {
     echo "|__________________________________________________|"
     echo
 
-    gather_input | sed_2048 | colorize
+    # Either initialize or normalize the high score file.
+    normalize_high_score
+
+    # Play!
+    gather_input | sed_2048 | high_score | colorize
+
+    # Re-normalize the high score file.
+    normalize_high_score
 }
 
 
