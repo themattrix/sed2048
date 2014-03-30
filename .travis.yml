@@ -1,0 +1,4 @@
+language: bash
+
+script:
+    - bash test/test-2048-sed.sh
