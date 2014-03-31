@@ -61,12 +61,13 @@ function normalize_high_score() {
 }
 
 function high_score() {
-    awk -v high="$(cat "${HIGH_SCORE_FILE}")" '
+    awk -v high="$(cat "${HIGH_SCORE_FILE}" 2> /dev/null || echo 0)" '
         /^Score:/{
             score = int(substr($0, match($0, /[0-9]+/)))
 
             if (score > high) {
                 print score > "'"${HIGH_SCORE_FILE}"'"
+                close("'"${HIGH_SCORE_FILE}"'")
                 high = score
             }
 
@@ -171,7 +172,7 @@ function print_help_and_exit() {
 }
 
 function main() {
-    local color=0
+    local color=1
 
     for arg in "$@"
     do
@@ -202,14 +203,8 @@ function main() {
     echo "|__________________________________________________|"
     echo
 
-    # Either initialize or normalize the high score file.
-    normalize_high_score
-
     # Play!
     gather_input | sed_2048 | high_score | colorize
-
-    # Re-normalize the high score file.
-    normalize_high_score
 }
 
 
