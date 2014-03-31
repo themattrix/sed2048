@@ -163,8 +163,8 @@ function print_help_and_exit() {
     {
         echo "$(basename "$0") [--color] [--no-color] [--help]"
         echo
-        echo "--color       Colorize the board."
-        echo "--no-color    Do not colorize the board (default)."
+        echo "--color       Colorize the board (default)."
+        echo "--no-color    Do not colorize the board."
         echo "--help        Print this help."
     } 2>&1
 
