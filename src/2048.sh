@@ -31,15 +31,28 @@ function gather_input() {
     while true
     do
         read -s -n 1 key
-        
+
         case "${key}" in
+            $'\x1b')
+                read -rsn1 -t 0.1 tmp
+                if [[ "$tmp" == "[" ]]; then
+                    read -rsn1 -t 0.1 tmp
+                    case "$tmp" in
+                        "A") arrow=U;;
+                        "B") arrow=D;;
+                        "C") arrow=R;;
+                        "D") arrow=L;;
+                    esac
+                fi
+                read -rsn5 -t 0.1
+            ;;
             w) arrow=U;;
             a) arrow=L;;
             s) arrow=D;;
             d) arrow=R;;
             *) arrow=;;
         esac
-        
+
         if [ -n "${arrow}" ]
         then
             echo "${arrow} $(get_random_cell 16),$(get_random_cell_value)"
