@@ -2,6 +2,7 @@
 ========
 
 [![Build Status](https://travis-ci.org/themattrix/sed2048.svg?branch=master)](https://travis-ci.org/themattrix/sed2048)
+[![run on repl.it](http://repl.it/badge/github/themattrix/sed2048)](https://repl.it/github/themattrix/sed2048)
 
 This is a sed implementation of the [2048 game](http://gabrielecirulli.github.io/2048/). All of the game logic is in sed. Bash is used to supply the sed script with user input and with pseudo-random numbers.
 
